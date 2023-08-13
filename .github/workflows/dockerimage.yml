@@ -3,21 +3,42 @@ name: Docker Image CI
 on:
   release:
     branches: [ master ]    
+  push:
+    branches:
+      - "**"
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
-      - uses: docker/build-push-action@3e7a4f6646880c6f63758d73ac32392d323eaf8f # v1.1.2
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
         with:
-          username: ${{ secrets.DOCKER_USERNAME_NETFLIX_OSS }}
-          password: ${{ secrets.DOCKER_AUTH_TOKEN_NETFLIX_OSS }}
-          repository: netflixoss/metaflow_metadata_service
-          tag_with_ref: true
-          tag_with_sha: true
-          tags: "latest"
-          dockerfile: ${{ github.workspace }}/Dockerfile
+          # list of Docker images to use as base name for tags
+          images: |
+            name/app
+            ghcr.io/username/app
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+#      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+#      - uses: docker/build-push-action@3e7a4f6646880c6f63758d73ac32392d323eaf8f # v1.1.2
+#        with:
+#          username: ${{ secrets.DOCKER_USERNAME_NETFLIX_OSS }}
+#          password: ${{ secrets.DOCKER_AUTH_TOKEN_NETFLIX_OSS }}
+#          repository: netflixoss/metaflow_metadata_service
+#          tag_with_ref: true
+#          tag_with_sha: true
+#          tags: "latest"
+#          dockerfile: ${{ github.workspace }}/Dockerfile
