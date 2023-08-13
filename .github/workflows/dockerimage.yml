@@ -11,16 +11,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v3
+#      -
+#        name: Checkout
+#        uses: actions/checkout@v3
       -
         name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: |
-            Dockerfile
+            tfurmston/metaflow_metadata_service
           tags: |
             type=ref,event=branch
             type=semver,pattern={{major}}.{{minor}}.{{patch}}
