@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   release:
-    branches: [ master ]    
+    branches: [ update_dockerimage_githubaction ]
   push:
     branches:
       - "**"
@@ -25,7 +25,7 @@ jobs:
             type=ref,event=branch
             type=semver,pattern={{major}}.{{minor}}.{{patch}}
             type=sha
-            type=raw,value=foo
+            type=raw,value=latest
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
