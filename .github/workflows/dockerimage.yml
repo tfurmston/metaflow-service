@@ -22,8 +22,7 @@ jobs:
           images: |
             tfurmston/metaflow_metadata_service
           tags: |
-            type=ref,event=branch
-            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=semver,pattern={{raw}}
             type=sha
             type=raw,value=latest
       -
